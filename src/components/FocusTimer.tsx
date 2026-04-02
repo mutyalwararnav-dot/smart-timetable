@@ -3,16 +3,34 @@
 import { useState, useEffect } from "react";
 import { ClayCard } from "@/components/ClayCard";
 import { Play, Pause, RotateCcw } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 export function FocusTimer() {
   const DEFAULT_TIME = 25 * 60; // 25 minutes
   const BREAK_TIME = 5 * 60; // 5 minutes
+
+  const supabase = createClient();
+  const [tasks, setTasks] = useState<{id: string, title: string}[]>([]);
+  const [selectedTaskId, setSelectedTaskId] = useState("");
 
   const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME);
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
 
   useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        supabase.from('tasks')
+          .select('id, title')
+          .eq('user_id', user.id)
+          .eq('status', 'pending')
+          .order('created_at', { ascending: false })
+          .then(({ data }) => {
+            if (data) setTasks(data);
+          });
+      }
+    });
+
     let interval: NodeJS.Timeout | null = null;
     
     if (isActive && timeLeft > 0) {
@@ -21,13 +39,12 @@ export function FocusTimer() {
       }, 1000);
     } else if (timeLeft === 0 && isActive) {
       setIsActive(false);
-      // It reached 0 naturally.
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, timeLeft]);
+  }, [isActive, timeLeft, supabase]);
 
   const toggleTimer = () => setIsActive(!isActive);
 
@@ -55,19 +72,27 @@ export function FocusTimer() {
     <ClayCard className={`p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-1000 ${
       isFinished && !isBreak ? 'bg-[#d1fae5] shadow-[0_0_40px_rgba(52,211,153,0.3)] animate-pulse' : ''
     }`}>
-      <div className="flex flex-col gap-2 text-center md:text-left">
+      <div className="flex flex-col gap-2 text-center md:text-left w-full max-w-sm">
         <h2 className="text-2xl font-bold text-slate-700">
           {isBreak ? "Break Time ☕" : "Focus Timer 🧠"}
         </h2>
-        <p className="text-slate-500 font-medium">
-          {isFinished && !isBreak 
-            ? "Great job! Time for a 5-minute break!" 
-            : isFinished && isBreak
-              ? "Break is over. Ready to focus again?"
-              : isBreak 
-                ? "Relax and let your mind rest." 
-                : "Stay focused on your current task."}
-        </p>
+        
+        {!isBreak ? (
+          tasks.length > 0 ? (
+             <select 
+               className="mt-2 text-slate-700 bg-white border-none py-3 px-4 rounded-xl shadow-clay-sm outline-none w-full font-medium focus:ring-2 focus:ring-pastel-purple appearance-none truncate"
+               value={selectedTaskId}
+               onChange={(e) => setSelectedTaskId(e.target.value)}
+             >
+               <option value="">Select a task to focus on</option>
+               {tasks.map(t => <option key={t.id} value={t.id}>{t.title}</option>)}
+             </select>
+          ) : (
+            <p className="text-slate-500 font-medium mt-2">Add some pending tasks first.</p>
+          )
+        ) : (
+          <p className="text-slate-500 font-medium">Relax and let your mind rest.</p>
+        )}
       </div>
       
       <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">

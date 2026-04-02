@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClayCard } from "@/components/ClayCard";
 import { ClayButton } from "@/components/ClayButton";
 import { Plus, Check, CalendarIcon, MoreVertical } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 type Task = {
   id: string;
@@ -15,15 +16,73 @@ type Task = {
 };
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: "1", title: "Complete Midterm Essay", course: "History 101", deadline: "Today, 11:59 PM", completed: false, priority: "high" },
-    { id: "2", title: "Read Chapters 4-5", course: "Psychology", deadline: "Tomorrow, 10:00 AM", completed: true, priority: "medium" },
-    { id: "3", title: "Problem Set #3", course: "Calculus", deadline: "Friday", completed: false, priority: "high" },
-    { id: "4", title: "Group Project Meeting", course: "Software Eng", deadline: "Saturday", completed: false, priority: "low" },
-  ]);
+  const supabase = createClient();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
 
-  const toggleTask = (id: string) => {
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    const { data } = await supabase
+      .from('tasks')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      setTasks(data.map(t => ({ 
+        id: t.id, 
+        title: t.title, 
+        course: "", 
+        deadline: t.due_date ? new Date(t.due_date).toLocaleDateString() : "", 
+        completed: t.status === 'completed', 
+        priority: "medium" 
+      })));
+    }
+    setIsLoading(false);
+  };
+
+  const handleAddTask = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTaskTitle.trim()) return;
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data, error } = await supabase.from('tasks').insert({
+      user_id: user.id,
+      title: newTaskTitle,
+      status: 'pending'
+    }).select().single();
+
+    if (data) {
+      setTasks([{ 
+        id: data.id, 
+        title: data.title, 
+        course: "", 
+        deadline: "", 
+        completed: false, 
+        priority: "medium" 
+      }, ...tasks]);
+      setNewTaskTitle("");
+      setIsAdding(false);
+    }
+  };
+
+  const toggleTask = async (id: string) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    const newStatus = task.completed ? 'pending' : 'completed';
+    
     setTasks(tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+    await supabase.from('tasks').update({ status: newStatus }).eq('id', id);
   };
 
   const completedCount = tasks.filter(t => t.completed).length;
@@ -36,11 +95,26 @@ export default function TasksPage() {
           <h1 className="text-4xl font-bold text-slate-700 tracking-tight">Task Manager</h1>
           <p className="text-slate-500 text-lg mt-2">You have {totalCount - completedCount} pending tasks.</p>
         </div>
-        <ClayButton className="flex items-center gap-2">
+        <ClayButton className="flex items-center gap-2" onClick={() => setIsAdding(!isAdding)}>
           <Plus className="w-5 h-5" />
           Add Task
         </ClayButton>
       </header>
+      
+      {isAdding && (
+        <form onSubmit={handleAddTask} className="flex gap-4 animate-in fade-in slide-in-from-top-4 duration-300">
+          <input 
+            type="text" 
+            value={newTaskTitle} 
+            onChange={(e) => setNewTaskTitle(e.target.value)} 
+            placeholder="What needs to be done?"
+            className="flex-1 bg-white border-none px-6 py-4 rounded-2xl shadow-clay focus:outline-none focus:ring-2 focus:ring-pastel-purple-hover text-slate-700 font-medium"
+            autoFocus
+          />
+          <ClayButton type="submit">Save Task</ClayButton>
+          <ClayButton type="button" variant="secondary" onClick={() => setIsAdding(false)}>Cancel</ClayButton>
+        </form>
+      )}
 
       <ClayCard className="p-0 overflow-hidden text-slate-700 flex flex-col gap-2 bg-opacity-70">
         <div className="p-6 border-b border-slate-200 border-opacity-40 flex justify-between items-center">
@@ -51,7 +125,11 @@ export default function TasksPage() {
         </div>
         
         <div className="flex flex-col p-4 gap-4">
-          {tasks.map(task => (
+          {isLoading ? (
+            <div className="p-8 text-center text-slate-400 font-medium">Loading tasks...</div>
+          ) : tasks.length === 0 ? (
+            <div className="p-8 text-center text-slate-400 font-medium">No tasks found. Add one above!</div>
+          ) : tasks.map(task => (
             <div 
               key={task.id}
               className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${
@@ -69,32 +147,10 @@ export default function TasksPage() {
                 {task.completed && <Check className="w-4 h-4" />}
               </button>
               
-              <div className={`flex-1 flex flex-col ${task.completed ? 'opacity-60 grayscale' : ''}`}>
+              <div className={`flex-1 flex flex-col justify-center ${task.completed ? 'opacity-60 grayscale' : ''}`}>
                 <h3 className={`text-lg font-semibold ${task.completed ? "line-through text-slate-400" : "text-slate-700"}`}>
                   {task.title}
                 </h3>
-                <div className="flex items-center gap-4 mt-1 text-sm">
-                  <span className="font-medium text-pastel-purple-hover filter brightness-75">{task.course}</span>
-                  <span className="text-slate-400 flex items-center gap-1">
-                    <CalendarIcon className="w-3.5 h-3.5" />
-                    {task.deadline}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                {!task.completed && (
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                    task.priority === 'high' ? 'bg-red-100 text-red-500 shadow-sm' :
-                    task.priority === 'medium' ? 'bg-yellow-100 text-yellow-600 shadow-sm' :
-                    'bg-green-100 text-green-600 shadow-sm'
-                  }`}>
-                    {task.priority}
-                  </span>
-                )}
-                <button className="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-pastel-bg transition-colors">
-                  <MoreVertical className="w-5 h-5" />
-                </button>
               </div>
             </div>
           ))}
