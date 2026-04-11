@@ -28,7 +28,9 @@ export default function SettingsPage() {
         setEmail(user.email || "");
         setDisplayName(user.user_metadata?.full_name || "");
         setMobileNumber(user.user_metadata?.mobile_number || "");
-        // We could also load preferences here if stored
+        if (user.user_metadata?.default_timer) {
+          setTimerDuration(user.user_metadata.default_timer);
+        }
       } else {
         router.push("/login");
       }
@@ -43,6 +45,7 @@ export default function SettingsPage() {
         data: {
           full_name: displayName,
           mobile_number: mobileNumber,
+          default_timer: timerDuration,
         }
       });
       if (error) throw error;
@@ -133,7 +136,8 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-slate-300 mb-1">Default Focus Timer Duration (Minutes)</label>
             <input
               type="number"
-              defaultValue={timerDuration}
+              value={timerDuration}
+              onChange={(e) => setTimerDuration(parseInt(e.target.value) || 25)}
               min="1"
               max="120"
               className="w-full max-w-xs px-4 py-3 rounded-xl transition-colors focus:outline-none bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500"

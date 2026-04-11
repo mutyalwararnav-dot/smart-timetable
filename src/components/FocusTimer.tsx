@@ -5,8 +5,12 @@ import { ClayCard } from "@/components/ClayCard";
 import { Play, Pause, RotateCcw } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 
-export function FocusTimer() {
-  const DEFAULT_TIME = 25 * 60; // 25 minutes
+interface FocusTimerProps {
+  defaultMinutes?: number;
+}
+
+export function FocusTimer({ defaultMinutes = 25 }: FocusTimerProps) {
+  const DEFAULT_TIME = defaultMinutes * 60; // User preferred minutes
   const BREAK_TIME = 5 * 60; // 5 minutes
 
   const supabase = createClient();
