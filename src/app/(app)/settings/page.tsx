@@ -87,7 +87,7 @@ export default function SettingsPage() {
               type="email"
               value={email}
               readOnly
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-500 cursor-not-allowed focus:outline-none"
+              className="w-full px-4 py-3 rounded-xl cursor-not-allowed focus:outline-none bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500"
             />
           </div>
           
@@ -97,7 +97,7 @@ export default function SettingsPage() {
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+              className="w-full px-4 py-3 rounded-xl transition-colors focus:outline-none bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500"
               placeholder="Your name"
             />
           </div>
@@ -108,7 +108,7 @@ export default function SettingsPage() {
               type="tel"
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+              className="w-full px-4 py-3 rounded-xl transition-colors focus:outline-none bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500"
               placeholder="+1 (555) 000-0000"
             />
           </div>
@@ -133,11 +133,10 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-slate-300 mb-1">Default Focus Timer Duration (Minutes)</label>
             <input
               type="number"
-              value={timerDuration}
-              onChange={(e) => setTimerDuration(parseInt(e.target.value) || 0)}
+              defaultValue={timerDuration}
               min="1"
               max="120"
-              className="w-full max-w-xs bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+              className="w-full max-w-xs px-4 py-3 rounded-xl transition-colors focus:outline-none bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500"
             />
           </div>
           

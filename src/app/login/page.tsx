@@ -80,7 +80,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full px-4 py-3 rounded-2xl shadow-inner focus:ring-2 font-medium bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-all"
               />
             </div>
 
@@ -92,7 +92,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full px-4 py-3 rounded-2xl shadow-inner focus:ring-2 font-medium bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500 focus:outline-none transition-all"
               />
               <div className="flex justify-end mt-1">
                 <Link href="#" className="text-sm font-semibold text-indigo-400 hover:text-slate-200 transition-colors">

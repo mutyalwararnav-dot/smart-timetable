@@ -108,7 +108,7 @@ export default function TasksPage() {
             value={newTaskTitle} 
             onChange={(e) => setNewTaskTitle(e.target.value)} 
             placeholder="What needs to be done?"
-            className="flex-1 bg-white border-none px-6 py-4 rounded-2xl shadow-md border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 font-medium"
+            className="flex-1 px-6 py-4 rounded-2xl shadow-md focus:outline-none focus:ring-2 font-medium bg-slate-800 text-slate-100 placeholder-slate-500 border border-slate-700 focus:border-indigo-500"
             autoFocus
           />
           <ClayButton type="submit">Save Task</ClayButton>
