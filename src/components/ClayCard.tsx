@@ -7,7 +7,7 @@ interface ClayCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function ClayCard({ children, className = "", ...props }: ClayCardProps) {
   return (
     <div
-      className={`bg-pastel-bg rounded-3xl shadow-clay p-6 ${className}`}
+      className={`bg-slate-800 rounded-3xl p-6 ${className}`}
       {...props}
     >
       {children}

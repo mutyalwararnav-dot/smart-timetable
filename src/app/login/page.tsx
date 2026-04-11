@@ -48,11 +48,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-pastel-bg flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-700 tracking-tight mb-2">Welcome Back 👋</h1>
-          <p className="text-slate-500">Sign in to manage your timetable</p>
+          <h1 className="text-4xl font-bold text-slate-100 tracking-tight mb-2">Welcome Back 👋</h1>
+          <p className="text-slate-300">Sign in to manage your timetable</p>
         </div>
 
         <ClayCard className="p-8 flex flex-col gap-6">
@@ -68,34 +68,34 @@ export default function LoginPage() {
 
           <div className="relative flex items-center justify-center py-2">
             <hr className="w-full border-slate-200 border-opacity-60" />
-            <span className="absolute bg-pastel-bg px-4 text-sm text-slate-400 font-medium">OR</span>
+            <span className="absolute bg-slate-800 px-4 text-sm text-slate-400 font-medium">OR</span>
           </div>
 
           <form onSubmit={handleEmailLogin} className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-600 pl-2">Email</label>
+              <label className="text-sm font-semibold text-slate-200 pl-2">Email</label>
               <input 
                 type="email" 
                 placeholder="you@example.com" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-pastel-bg bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-clay-active focus:outline-none focus:ring-2 focus:ring-pastel-blue-hover text-slate-700 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-600 pl-2">Password</label>
+              <label className="text-sm font-semibold text-slate-200 pl-2">Password</label>
               <input 
                 type="password" 
                 placeholder="••••••••" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-pastel-bg bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-clay-active focus:outline-none focus:ring-2 focus:ring-pastel-blue-hover text-slate-700 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
               />
               <div className="flex justify-end mt-1">
-                <Link href="#" className="text-sm font-semibold text-pastel-purple-hover hover:text-slate-600 transition-colors">
+                <Link href="#" className="text-sm font-semibold text-indigo-400 hover:text-slate-200 transition-colors">
                   Forgot password?
                 </Link>
               </div>
@@ -109,9 +109,9 @@ export default function LoginPage() {
           </form>
         </ClayCard>
 
-        <p className="text-center mt-8 text-slate-500 font-medium">
+        <p className="text-center mt-8 text-slate-300 font-medium">
           Don't have an account?{" "}
-          <Link href="/signup" className="text-pastel-blue-hover hover:text-slate-700 transition-colors font-bold">
+          <Link href="/signup" className="text-indigo-400 hover:text-slate-100 transition-colors font-bold">
             Sign up
           </Link>
         </p>

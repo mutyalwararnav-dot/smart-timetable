@@ -55,11 +55,11 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-pastel-bg flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-700 tracking-tight mb-2">Create Account 🚀</h1>
-          <p className="text-slate-500">Join us to organize your academic life</p>
+          <h1 className="text-4xl font-bold text-slate-100 tracking-tight mb-2">Create Account 🚀</h1>
+          <p className="text-slate-300">Join us to organize your academic life</p>
         </div>
 
         <ClayCard className="p-8 flex flex-col gap-6">
@@ -75,43 +75,43 @@ export default function SignupPage() {
 
           <div className="relative flex items-center justify-center py-2">
             <hr className="w-full border-slate-200 border-opacity-60" />
-            <span className="absolute bg-pastel-bg px-4 text-sm text-slate-400 font-medium">OR</span>
+            <span className="absolute bg-slate-800 px-4 text-sm text-slate-400 font-medium">OR</span>
           </div>
 
           <form onSubmit={handleEmailSignup} className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-600 pl-2">Full Name</label>
+              <label className="text-sm font-semibold text-slate-200 pl-2">Full Name</label>
               <input 
                 type="text" 
                 placeholder="Alex Doe" 
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
-                className="w-full bg-pastel-bg bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-clay-active focus:outline-none focus:ring-2 focus:ring-pastel-purple-hover text-slate-700 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-600 pl-2">Email</label>
+              <label className="text-sm font-semibold text-slate-200 pl-2">Email</label>
               <input 
                 type="email" 
                 placeholder="you@example.com" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-pastel-bg bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-clay-active focus:outline-none focus:ring-2 focus:ring-pastel-purple-hover text-slate-700 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-600 pl-2">Password</label>
+              <label className="text-sm font-semibold text-slate-200 pl-2">Password</label>
               <input 
                 type="password" 
                 placeholder="Create a strong password" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-pastel-bg bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-clay-active focus:outline-none focus:ring-2 focus:ring-pastel-purple-hover text-slate-700 placeholder:text-slate-400 transition-all font-medium"
+                className="w-full bg-slate-800 bg-opacity-50 border-none px-4 py-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 placeholder:text-slate-400 transition-all font-medium"
               />
             </div>
 
@@ -123,9 +123,9 @@ export default function SignupPage() {
           </form>
         </ClayCard>
 
-        <p className="text-center mt-8 text-slate-500 font-medium">
+        <p className="text-center mt-8 text-slate-300 font-medium">
           Already have an account?{" "}
-          <Link href="/login" className="text-pastel-purple-hover hover:text-slate-700 transition-colors font-bold">
+          <Link href="/login" className="text-indigo-400 hover:text-slate-100 transition-colors font-bold">
             Sign in
           </Link>
         </p>

@@ -15,12 +15,12 @@ export function ClayButton({
   ...props
 }: ClayButtonProps) {
   const baseClasses =
-    "relative inline-flex items-center justify-center rounded-3xl font-medium transition-all duration-200 focus:outline-none active:shadow-clay-active active:scale-95";
+    "relative inline-flex items-center justify-center rounded-3xl font-medium transition-all duration-200 focus:outline-none active:scale-95 shadow-md";
   
   const variantClasses =
     variant === "primary"
-      ? "bg-pastel-blue text-slate-700 shadow-clay hover:bg-pastel-blue-hover"
-      : "bg-pastel-purple text-slate-700 shadow-clay hover:bg-pastel-purple-hover";
+      ? "bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-700"
+      : "bg-slate-700 text-slate-100 hover:bg-slate-600 active:bg-slate-800";
 
   return (
     <button

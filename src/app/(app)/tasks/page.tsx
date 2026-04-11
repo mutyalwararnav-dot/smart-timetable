@@ -92,8 +92,8 @@ export default function TasksPage() {
     <div className="p-8 md:p-12 flex flex-col gap-10 max-w-5xl mx-auto">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h1 className="text-4xl font-bold text-slate-700 tracking-tight">Task Manager</h1>
-          <p className="text-slate-500 text-lg mt-2">You have {totalCount - completedCount} pending tasks.</p>
+          <h1 className="text-4xl font-bold text-slate-100 tracking-tight">Task Manager</h1>
+          <p className="text-slate-300 text-lg mt-2">You have {totalCount - completedCount} pending tasks.</p>
         </div>
         <ClayButton className="flex items-center gap-2" onClick={() => setIsAdding(!isAdding)}>
           <Plus className="w-5 h-5" />
@@ -108,7 +108,7 @@ export default function TasksPage() {
             value={newTaskTitle} 
             onChange={(e) => setNewTaskTitle(e.target.value)} 
             placeholder="What needs to be done?"
-            className="flex-1 bg-white border-none px-6 py-4 rounded-2xl shadow-clay focus:outline-none focus:ring-2 focus:ring-pastel-purple-hover text-slate-700 font-medium"
+            className="flex-1 bg-white border-none px-6 py-4 rounded-2xl shadow-md border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-slate-100 font-medium"
             autoFocus
           />
           <ClayButton type="submit">Save Task</ClayButton>
@@ -116,10 +116,10 @@ export default function TasksPage() {
         </form>
       )}
 
-      <ClayCard className="p-0 overflow-hidden text-slate-700 flex flex-col gap-2 bg-opacity-70">
+      <ClayCard className="p-0 overflow-hidden text-slate-100 flex flex-col gap-2 bg-opacity-70">
         <div className="p-6 border-b border-slate-200 border-opacity-40 flex justify-between items-center">
           <h2 className="text-xl font-semibold">Your Tasks</h2>
-          <div className="text-sm font-medium text-slate-500 bg-pastel-bg shadow-clay-sm px-4 py-1.5 rounded-full">
+          <div className="text-sm font-medium text-slate-300 bg-slate-800 shadow-sm border border-slate-700 px-4 py-1.5 rounded-full">
             {completedCount} / {totalCount} completed
           </div>
         </div>
@@ -133,22 +133,22 @@ export default function TasksPage() {
             <div 
               key={task.id}
               className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${
-                task.completed ? "bg-pastel-bg bg-opacity-40" : "bg-white shadow-clay-sm"
+                task.completed ? "bg-slate-800 bg-opacity-40" : "bg-white shadow-sm border border-slate-700"
               }`}
             >
               <button 
                 onClick={() => toggleTask(task.id)}
                 className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
                   task.completed 
-                    ? "bg-pastel-blue text-slate-700 shadow-inner" 
-                    : "bg-pastel-bg shadow-clay hover:bg-white"
+                    ? "bg-indigo-500 text-slate-100 shadow-inner" 
+                    : "bg-slate-800 shadow-md border border-slate-700 hover:bg-white"
                 }`}
               >
                 {task.completed && <Check className="w-4 h-4" />}
               </button>
               
               <div className={`flex-1 flex flex-col justify-center ${task.completed ? 'opacity-60 grayscale' : ''}`}>
-                <h3 className={`text-lg font-semibold ${task.completed ? "line-through text-slate-400" : "text-slate-700"}`}>
+                <h3 className={`text-lg font-semibold ${task.completed ? "line-through text-slate-400" : "text-slate-100"}`}>
                   {task.title}
                 </h3>
               </div>
