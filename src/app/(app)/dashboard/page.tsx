@@ -4,11 +4,13 @@ import { FocusTimer } from "@/components/FocusTimer";
 import { CheckCircle2, TrendingUp, Clock, BookOpen } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const userName = user?.user_metadata?.full_name || user?.email || "Guest";
-  const defaultTimer = user?.user_metadata?.default_timer || 25;
+  const userPreference = user?.user_metadata?.focus_time || 25;
 
   // Fetch a single pending task for the "Today's Focus" section
   const { data: tasks } = await supabase
@@ -33,7 +35,7 @@ export default async function DashboardPage() {
         <div className="lg:col-span-2 flex flex-col gap-8">
           
           {/* Smart Feature: Focus Timer */}
-          <FocusTimer defaultMinutes={defaultTimer} />
+          <FocusTimer key={userPreference} defaultMinutes={userPreference} />
 
           <div className="flex flex-col gap-6">
             <h2 className="text-2xl font-semibold text-slate-100">Today's Focus</h2>

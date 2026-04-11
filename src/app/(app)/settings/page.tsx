@@ -28,8 +28,8 @@ export default function SettingsPage() {
         setEmail(user.email || "");
         setDisplayName(user.user_metadata?.full_name || "");
         setMobileNumber(user.user_metadata?.mobile_number || "");
-        if (user.user_metadata?.default_timer) {
-          setTimerDuration(user.user_metadata.default_timer);
+        if (user.user_metadata?.focus_time) {
+          setTimerDuration(user.user_metadata.focus_time);
         }
       } else {
         router.push("/login");
@@ -45,11 +45,12 @@ export default function SettingsPage() {
         data: {
           full_name: displayName,
           mobile_number: mobileNumber,
-          default_timer: timerDuration,
+          focus_time: timerDuration,
         }
       });
       if (error) throw error;
       alert("Profile updated successfully!");
+      router.refresh();
     } catch (error: any) {
       alert("Error updating profile: " + error.message);
     } finally {
