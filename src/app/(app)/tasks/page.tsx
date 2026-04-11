@@ -148,7 +148,7 @@ export default function TasksPage() {
               </button>
               
               <div className={`flex-1 flex flex-col justify-center ${task.completed ? 'opacity-60 grayscale' : ''}`}>
-                <h3 className={`text-lg font-semibold ${task.completed ? "line-through text-slate-400" : "text-slate-100"}`}>
+                <h3 className={`text-lg font-semibold ${task.completed ? "line-through text-slate-400" : "text-slate-900"}`}>
                   {task.title}
                 </h3>
               </div>
