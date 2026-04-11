@@ -69,7 +69,7 @@ export function FocusTimer() {
   const isFinished = timeLeft === 0;
   
   return (
-    <ClayCard className={`p-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-1000 ${
+    <ClayCard className={`bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-1000 ${
       isFinished && !isBreak ? 'bg-[#d1fae5] shadow-[0_0_40px_rgba(52,211,153,0.3)] animate-pulse' : ''
     }`}>
       <div className="flex flex-col gap-2 text-center md:text-left w-full max-w-sm">
